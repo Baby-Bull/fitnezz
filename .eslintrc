@@ -1,0 +1,74 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaFeatures": {
+        "jsx": true
+      },
+      "project": "./tsconfig.json",
+      "useJSXTextNode": true
+    },
+    "env": {
+        "browser": true,
+        "es6": true,
+        "jest/globals": true,
+        "node": true
+    },
+    "extends": [
+      "airbnb",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:prettier/recommended",
+      "prettier/react"
+      // "prettier"
+    ],
+    "globals": {
+      "DEBUG_MODE": true,
+      "REVISION": true
+    },
+    "rules": {
+        "react/jsx-uses-vars": 1,
+        "react/no-array-index-key": 0,
+        // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/static-property-placement.md
+        "react/static-property-placement": ["warn", "property assignment", {
+            "propTypes": "static public field",
+            "defaultProps": "static public field"
+          }],
+        "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".jsx"] }],
+        "comma-dangle": ["error", "always-multiline"],
+        "react/jsx-fragments": [0],
+        "react/jsx-props-no-spreading": [0],
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+              "ts": "never",
+              "tsx": "never",
+              "js": "never",
+              "jsx": "never"
+            }
+        ],
+        "import/no-extraneous-dependencies": ["error", {
+          "devDependencies": ["**/*.test.js", "**/*.test.ts", "**/*.stories.tsx"], // devDependenciesのimportを許可
+          "optionalDependencies": false
+        }],
+        "@typescript-eslint/explicit-function-return-type": "off", // 戻り値の型定義を必須にしない(ライブラリー周りの設定が時間がかかりそうなので・・・後々対応)
+        "react/prop-types": [0]
+    },
+    "plugins": [
+        "@typescript-eslint",
+        "react",
+        "jest",
+        "jsx-a11y",
+        "import",
+        "react-hooks"
+        // "prettier",
+    ],
+    "settings": {
+      "import/resolver": {
+        "webpack": {
+          "config": "webpack.config.js"
+        }
+      }
+    }
+}

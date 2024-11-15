@@ -4,6 +4,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
+    "baseUrl": "./",
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
@@ -18,8 +19,49 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "@/*": [
+        "src/*"
+      ],
+      "icons/*": [
+        "src/components/atoms/icons/*"
+      ],
+      "libs/*": [
+        "src/libs/*"
+      ],
+      "Template/*": [
+        "src/components/Template/*"
+      ],
+      "Organism/*": [
+        "src/components/Organism/*"
+      ],
+      "Molecules/*": [
+        "src/components/Molecules/*"
+      ],
+      "Atoms/*": [
+        "src/components/Atoms/*"
+      ],
+      "Modal/*": [
+        "src/components/Modal/*"
+      ],
+      "CustomHooks": [
+        "src/components/CustomHooks"
+      ],
+      "ComponentSelectors": [
+        "src/components/Selectors"
+      ],
+      "constants/*": [
+        "src/constants/*"
+      ],
+      "libs": [
+        "src/libs"
+      ],
+      "img": [
+        "src/img"
+      ],
+      "testData": [
+        "src/testData"
+      ]
+    },
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]

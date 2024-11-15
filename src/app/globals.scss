@@ -17,13 +17,11 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  /* font-family: Arial, Helvetica, sans-serif; */
 }
 
 /* globals.css */
-
-/* Font sizes in pixels */
 :root {
+  /* Font sizes in pixels ************/
   --h1-font-size: 26px;
   --h2-font-size: 24px;
   --h3-font-size: 22px;
@@ -33,6 +31,15 @@ body {
   --medium-text-font-size: 14px;
   --small-text-font-size: 12px;
   --caption-font-size: 10px;
+
+  /* global colors ***************/
+  --blue-linear: linear-gradient(to left top, #92a3fd, #9dceff);
+  --purple-linear: linear-gradient(to left top, #c58bf2, #eea4ce);
+  --calories-linear: linear-gradient(to left top, #c58bf2, #b4c0fe);
+  --logo-linear: linear-gradient(to left top, #cc8fed, #9dceff);
+  --back-color: #1d1617;
+  --border-color: #f7f8f8;
+  --white-color: #ffffff;
 }
 
 /* H1 Styles */
@@ -228,4 +235,62 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+// Customized backgrounds **********************/
+.bg-blue-linear {
+  background: var(--blue-linear);
+}
+.bg-purple-linear {
+  background: var(--purple-linear);
+}
+.bg-border-color {
+  background: var(--border-color);
+}
+
+// Transition effect when change page ************/
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.swiper {
+  width: 295px;
+  height: 478px;
+
+  .swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+
+    &:nth-child(1n) {
+      background: var(--calories-linear);
+    }
+
+    &:nth-child(2n) {
+      background: var(--blue-linear);
+    }
+
+    &:nth-child(3n) {
+      background: var(--logo-linear);
+    }
+  }
+}
+
+.form-input {
+  color: #ada4a5;
+  font-size: var(--small-text-font-size);
+  border-radius: 14px;
+  background: var(--border-color);
+  margin-bottom: 10px;
 }

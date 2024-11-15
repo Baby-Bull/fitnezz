@@ -1,19 +1,128 @@
-import React from "react";
+"use client";
+
+import React, { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { Navigation, Pagination, EffectCoverflow } from "swiper";
+import { EffectCards } from "swiper/modules";
 
 import Image from "next/image";
 
-
 // Import Swiper styles
-import "swiper/swiper.scss";
-import "swiper/components/navigation/navigation.scss";
-import "swiper/components/pagination/pagination.scss";
-import "swiper/components/effect-coverflow/effect-coverflow.scss";
-SwiperCore.use([Navigation, Pagination, EffectCoverflow]);
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/pagination";
+import "swiper/css/effect-cards";
 
-const SetUpProfilePage = () => {
+/**
+ * Import components
+ */
+import InputWithIcon from "@/components/atoms/InputWithIcon";
+import useQueryParams from "@/hooks/useQueryParams";
+
+const mockDataSlide = [
+  {
+    imgWidth: 183.35,
+    imgHeight: 290.19,
+    imgSrc: "/assets/svg/set_profile_1.svg",
+    title: "Improve Shape",
+    description:
+      "I have a low amount of body fat and need / want to build more muscle ",
+  },
+  {
+    imgWidth: 205.88,
+    imgHeight: 294.23,
+    imgSrc: "/assets/svg/set_profile_2.svg",
+    title: "Lean & Tone",
+    description:
+      "I’m “skinny fat”. look thin but have no shape. I want to add learn muscle in the right way",
+  },
+  {
+    imgWidth: 229.18,
+    imgHeight: 264.25,
+    imgSrc: "/assets/svg/set_profile_3.svg",
+    title: "Lose a Fat",
+    description:
+      "I have over 20 lbs to lose. I want to drop all this fat and gain muscle mass ",
+  },
+];
+
+type SliderCardProps = {
+  imgWidth: number;
+  imgHeight: number;
+  imgSrc: string | null;
+  title: string;
+  description: string;
+};
+
+type InitialSetupStepProps = {
+  setCurrentStep: void;
+  setQueryParam: void;
+};
+
+const SetUpSliderCard = ({ params }: SliderCardProps) => {
+  const { imgWidth, imgHeight, imgSrc, title, description } = params;
+  return (
+    <div className="container">
+      <div className="image flex justify-center">
+        <Image src={imgSrc} alt={imgSrc} width={imgWidth} height={imgHeight} />
+      </div>
+      <div className="content text-center">
+        <div className="title">
+          <p className="text-medium-semi-bold mt-5 w-[50%] mx-auto">{title}</p>
+          <hr className=" w-[50px] m-auto mt-1" />
+        </div>
+        <div className="description text-small-regular m-auto w-[215px] mt-5">
+          {description}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const InitialSetupStep = ({
+  setCurrentStep,
+  setQueryParam,
+}: InitialSetupStepProps) => {
+  return (
+    <div className="container">
+      <div className="imgTopic h-[350px]">
+        <Image
+          src="/assets/svg/set_profile_init.svg"
+          alt="init_step"
+          width={0}
+          height={0}
+          style={{ width: "100%", height: "inherit" }} // optional
+        />
+      </div>
+      <div className="preDescription text-center mt-7">
+        <h4 className="title title-h4-bold">Let’s complete your profile</h4>
+        <p className="message text-small-regular mt-[5px] w-[80%] mx-auto">
+          It will help us to know more about you!
+        </p>
+      </div>
+      <div className="infoForm grid justify-center mt-7">
+        <InputWithIcon id="" name="" type="" placeholder="Choose Gender" />
+        <InputWithIcon id="" name="" type="" placeholder="Choose Gender" />
+      </div>
+      <button
+        type="button"
+        className="text-subtitle-semi-bold absolute bottom-[50px] w-4/5 left-0 right-0 mx-auto bg-blue-linear rounded-full py-5"
+        onClick={() => {
+          setCurrentStep(2);
+          setQueryParam("step", 2);
+        }}
+      >
+        Next
+      </button>
+    </div>
+  );
+};
+
+const TheSecondSetupStep = ({
+  setCurrentStep,
+  setQueryParam,
+}: InitialSetupStepProps) => {
   return (
     <div className="container">
       <div className="header-text mt-[90px] text-center shadow-lg">
@@ -22,47 +131,64 @@ const SetUpProfilePage = () => {
           It will help us to choose a best program for you
         </p>
       </div>
-      <div className="slide-goal">
+      <div className="slide-goal mt-14">
         <Swiper
-          navigation
-          pagination={{ clickable: true }}
-          effect="coverflow"
-          coverflowEffect={{
-            rotate: 50,
-            stretch: 0,
-            depth: 100,
-            modifier: 1,
-            slideShadows: false,
-          }}
-          slidesPerView={2}
-          centeredSlides
-          style={{ height: "500px" }}
+          effect={"cards"}
+          grabCursor={true}
+          modules={[EffectCards]}
+          className="swiper"
         >
-          <SwiperSlide class="swiper-slide w-[300px]">
-            <Image
-              src="http://marveltheme.com/tf/html/appai/appai/img/app-screenshots/10.jpg"
-              alt=""
-            />
-          </SwiperSlide>
-          <SwiperSlide class="swiper-slide">
-            <Image
-              src="http://marveltheme.com/tf/html/appai/appai/img/app-screenshots/11.jpg"
-              alt=""
-            />
-          </SwiperSlide>
-          <SwiperSlide class="swiper-slide">
-            <Image
-              src="http://marveltheme.com/tf/html/appai/appai/img/app-screenshots/12.jpg"
-              alt=""
-            />
-          </SwiperSlide>
+          {mockDataSlide.map((item, index) => {
+            return (
+              <SwiperSlide key={index}>
+                <SetUpSliderCard params={item} />
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
       </div>
+      <button
+        type="button"
+        className="text-subtitle-semi-bold absolute bottom-[50px] w-4/5 left-0 right-0 mx-auto bg-blue-linear rounded-full py-5"
+        onClick={() => {
+          setCurrentStep(1);
+          setQueryParam("step", 1);
+        }}
+      >
+        Confirm
+      </button>
       <div className="button-confirm"></div>
     </div>
   );
+};
+
+const SetUpProfilePage = () => {
+  const { getQueryParam, setQueryParam } = useQueryParams();
+  const [currentStep, setCurrentStep] = useState(getQueryParam("step") || 1);
+
+  switch (currentStep) {
+    case 1:
+      return (
+        <InitialSetupStep
+          setCurrentStep={setCurrentStep}
+          setQueryParam={setQueryParam}
+        />
+      );
+    case 2:
+      return (
+        <TheSecondSetupStep
+          setCurrentStep={setCurrentStep}
+          setQueryParam={setQueryParam}
+        />
+      );
+    default:
+      return (
+        <InitialSetupStep
+          setCurrentStep={setCurrentStep}
+          setQueryParam={setQueryParam}
+        />
+      );
+  }
 };
 
 export default SetUpProfilePage;
