@@ -263,6 +263,23 @@ body {
   }
 }
 
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.fade-transition {
+  animation: fadeIn 0.3s ease-in-out forwards;
+}
+
+.slide-transition {
+  animation: slideIn 0.5s ease-in-out;
+}
+
 .swiper {
   width: 295px;
   height: 478px;

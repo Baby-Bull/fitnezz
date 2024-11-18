@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import React, {  useState } from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCards } from "swiper/modules";
@@ -50,18 +49,23 @@ const mockDataSlide = [
 type SliderCardProps = {
   imgWidth: number;
   imgHeight: number;
-  imgSrc: string | null;
+  imgSrc: string;
   title: string;
   description: string;
 };
 
 type InitialSetupStepProps = {
-  setCurrentStep: void;
-  setQueryParam: void;
+  setCurrentStep: (step: number) => void;
+  setQueryParam: (key: string, value: number) => void;
 };
 
-const SetUpSliderCard = ({ params }: SliderCardProps) => {
-  const { imgWidth, imgHeight, imgSrc, title, description } = params;
+const SetUpSliderCard = ({
+  imgWidth,
+  imgHeight,
+  imgSrc,
+  title,
+  description,
+}: SliderCardProps) => {
   return (
     <div className="container">
       <div className="image flex justify-center">
@@ -85,7 +89,7 @@ const InitialSetupStep = ({
   setQueryParam,
 }: InitialSetupStepProps) => {
   return (
-    <div className="container">
+    <div className="container fade-transition">
       <div className="imgTopic h-[350px]">
         <Image
           src="/assets/svg/set_profile_init.svg"
@@ -102,6 +106,8 @@ const InitialSetupStep = ({
         </p>
       </div>
       <div className="infoForm grid justify-center mt-7">
+        <InputWithIcon id="" name="" type="" placeholder="Choose Gender" />
+        <InputWithIcon id="" name="" type="" placeholder="Choose Gender" />
         <InputWithIcon id="" name="" type="" placeholder="Choose Gender" />
         <InputWithIcon id="" name="" type="" placeholder="Choose Gender" />
       </div>
@@ -124,14 +130,14 @@ const TheSecondSetupStep = ({
   setQueryParam,
 }: InitialSetupStepProps) => {
   return (
-    <div className="container">
+    <div className="container fade-transition">
       <div className="header-text mt-[90px] text-center shadow-lg">
         <h4 className="upper-text title-h4-bold">What is your goal ?</h4>
         <p className="text-small-regular mt-[5px] w-[50%] mx-auto">
           It will help us to choose a best program for you
         </p>
       </div>
-      <div className="slide-goal mt-14">
+      <div className="slide-goal mt-14 slide-transition">
         <Swiper
           effect={"cards"}
           grabCursor={true}
@@ -141,7 +147,7 @@ const TheSecondSetupStep = ({
           {mockDataSlide.map((item, index) => {
             return (
               <SwiperSlide key={index}>
-                <SetUpSliderCard params={item} />
+                <SetUpSliderCard {...item} />
               </SwiperSlide>
             );
           })}

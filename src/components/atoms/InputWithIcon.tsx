@@ -5,7 +5,7 @@ type IInputWithIcon = {
   name: string;
   type: string;
   placeholder: string;
-  icon: ReactElement;
+  icon?: ReactElement;
 };
 
 const InputWithIcon = ({
