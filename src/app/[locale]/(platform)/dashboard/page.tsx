@@ -1,29 +1,68 @@
+"use client";
 import React from "react";
-import { Pie } from "react-chartjs-2";
+import { PieChart, Pie, Cell, Text } from "recharts";
 
-const PieChart = () => {
-  const data = {
-    labels: ["Purple", "Blue", "Green"], // Labels for each slice
-    datasets: [
-      {
-        label: "Sample Dataset",
-        data: [20.1, 50, 29.9], // Values for each slice
-        backgroundColor: ["#D946EF", "#3B82F6", "#22C55E"], // Slice colors
-        borderWidth: 1,
-      },
-    ],
-  };
+const data = [
+  { name: "Active", value: 20.1 }, // Highlighted segment
+  { name: "Inactive", value: 79.9 }, // Remaining space
+];
 
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top",
-      },
-    },
-  };
+const COLORS = ["#C084FC", "#FFFFFF"]; // Purple for active slice, white for the rest
 
-  return <Pie data={data} options={options} />;
+const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, index }) => {
+  if (index === 0) {
+    // Position the label dynamically within the active segment
+    const radius = outerRadius * 0.7; // Adjust position closer to the center of the slice
+    const x = cx + radius * Math.cos(-midAngle * (Math.PI / 180));
+    const y = cy + radius * Math.sin(-midAngle * (Math.PI / 180));
+
+    return (
+      <Text
+        x={x}
+        y={y}
+        textAnchor="middle"
+        verticalAnchor="middle"
+        fontSize={9}
+        fontWeight="bold"
+        fill="#FFFFFF"
+      >
+        {data[index].value.toFixed(1)}
+      </Text>
+    );
+  }
+  return null;
+};
+
+const CustomPieChart = () => {
+  return (
+    <PieChart width={160} height={160}>
+      <Pie
+        data={data}
+        dataKey="value"
+        cx="50%"
+        cy="50%"
+        outerRadius={50} // Only outer radius to create a full circle
+        startAngle={0}
+        endAngle={450} // Active slice at the top-right
+        label={renderCustomLabel}
+        labelLine={false} // Disable default label line
+      >
+        {data.map((entry, index) => (
+          <Cell
+            key={`cell-${index}`}
+            fill={COLORS[index]}
+            stroke="none"
+            style={{
+              filter:
+                index === 0
+                  ? "drop-shadow(0px 3px 6px rgba(0,0,0,0.16))"
+                  : undefined,
+            }}
+          />
+        ))}
+      </Pie>
+    </PieChart>
+  );
 };
 
 export default function Dashboard() {
@@ -52,13 +91,32 @@ export default function Dashboard() {
           </button>
         </div>
       </div>
-      <div className="bmi-banner bg-blue-linear w-full h-[146px] rounded-[22px] mt-10 overflow-hidden">
-        <div className="dot-bg bg-[url('/assets/svg/dots_banner.svg')] h-full">
-          <div className="right-info"></div>
+      <div className="bmi-banner bg-blue-linear w-full h-[146px] rounded-[22px] mt-10 overflow-hidden blue-shadow">
+        <div className="dot-bg bg-[url('/assets/svg/dots_banner.svg')] h-full flex justify-around items-center">
+          <div className="right-info">
+            <div className="label-text">
+              <p className="text-medium-semi-bold">BMI (Body Mass Index)</p>
+              <p className="text-small-regular mt-1">
+                You have a normal weight
+              </p>
+            </div>
+            <button
+              type="button"
+              className="w-2/3 mx-auto bg-purple-linear rounded-full py-3 mt-3"
+            >
+              <p className="text-caption-semi-bold">View More</p>
+            </button>
+          </div>
           <div className="left-chart">
-            <PieChart />
+            <CustomPieChart />
           </div>
         </div>
+      </div>
+      <div className="today-banner bg-blue-linear-10 w-full flex items-center justify-between h-[57px] rounded-[22px] mt-8 px-7">
+        <p className="text-medium-medium">Today Target</p>
+        <button type="button" className="bg-blue-linear rounded-full px-4 py-2">
+          <p className="text-small-regular">Check</p>
+        </button>
       </div>
     </div>
   );

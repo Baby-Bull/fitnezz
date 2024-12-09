@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "variables";
+@import "mixins";
+/**
+* import base style
+*/
+@import "base/animation";
+@import "base/background";
+@import "base/shadow";
+@import "base/typography";
+/**
+* import style components
+*/
+@import "components/input";
+/**
+* import style libs
+*/
+@import "libs/swiper";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
